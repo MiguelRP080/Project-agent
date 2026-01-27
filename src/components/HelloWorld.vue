@@ -1,53 +1,56 @@
-<script setup lang="js">
+<script setup lang="ts">
   import Groq from "groq-sdk";
   import { ref } from 'vue';
+  import Index from './Index.vue';
 
   const GROQ_API_KEY= "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"
 
   const groq = new Groq({ apiKey: GROQ_API_KEY, dangerouslyAllowBrowser: true });
   
-  const mensagem = ref('');
-  const loading = ref(false);
+  const message = ref('');
+  const loading = ref(false)
+  const prompt = ref('')
 
-  async function main() {
+  async function main(prompt: string) {
     loading.value = true;
     try {
-      const chatCompletion = await getGroqChatCompletion();
-      mensagem.value = chatCompletion.choices[0]?.message?.content || "";
-      console.log(mensagem.value);
+      const chatCompletion = await getGroqChatCompletion(prompt);
+      message.value = chatCompletion.choices[0]?.message?.content || "";
+      console.log(message.value);
     } catch (error) {
       console.error('Erro:', error);
-      mensagem.value = 'Erro ao obter resposta do Groq';
+      message.value = 'Erro ao obter resposta do Groq';
     } finally {
       loading.value = false;
     }
   }
 
-  async function getGroqChatCompletion() {
+  async function getGroqChatCompletion(prompt: string) {
     return groq.chat.completions.create({
       messages: [
         {
           role: "user",
-          content: "Explique a teoria da relatividade de forma simples.",
+          content: prompt,
         },
       ],
       model: "openai/gpt-oss-20b",
     });
   }
-
 </script>
 
 <template>
-  <div>
-    <button @click="main" :disabled="loading">
-      {{ loading ? 'A carregar...' : 'Obter mensagem do Groq' }}
-    </button>
-    
-    <div v-if="mensagem" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-      <h3>Resposta:</h3>
-      <p>{{ mensagem }}</p>
+  <div class="flex justify-center items-center">
+    <div class="bg-neutral-900 pb-8 pr-8 pl-8 max-h-[90%] max-w-4xl">
+      <a class="text-white font-bold"> {{ loading ? 'Loading...' : '' }} </a>
+      
+      <div v-if="message" class="mt-5 p-2.5 border border-gray-300 rounded-md">
+        <h3 class="text-white font-bold">Answer:</h3>
+        <p class="text-white font-semibold">{{ message }}</p>
+      </div>
     </div>
   </div>
+
+  <Index :main="main" :loading="loading" :prompt="prompt"/>
 </template>
 
 <style scoped>
