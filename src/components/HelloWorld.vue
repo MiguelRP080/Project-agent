@@ -1,7 +1,8 @@
 <script setup lang="ts">
   import Groq from "groq-sdk";
-  import { ref } from 'vue';
   import Index from './Index.vue';
+  import { ref, computed } from 'vue';
+  import MarkdownIt from 'markdown-it'
 
   const GROQ_API_KEY= "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"
 
@@ -36,25 +37,41 @@
       model: "openai/gpt-oss-20b",
     });
   }
+
+  const htmlResposta = computed(() => md.render(mensagem.value || ''))
+
+  const md = new MarkdownIt({
+    html: false,
+    linkify: true,
+    typographer: true
+  })
 </script>
 
 <template>
-  <div class="flex justify-center items-center">
-    <div class="bg-neutral-900 pb-8 pr-8 pl-8 max-h-[90%] max-w-4xl">
-      <a class="text-white font-bold"> {{ loading ? 'Loading...' : '' }} </a>
-      
-      <div v-if="message" class="mt-5 p-2.5 border border-gray-300 rounded-md">
-        <h3 class="text-white font-bold">Answer:</h3>
-        <p class="text-white font-semibold">{{ message }}</p>
-      </div>
-    </div>
-  </div>
+<div class="flex justify-center items-center">
+  <div class="bg-neutral-900 pb-8 pr-8 pl-8 max-h-[90%] max-w-4xl">
+    <a class="text-white font-bold"> {{ loading ? 'Loading...' : '' }} </a>
 
-  <Index :main="main" :loading="loading" :prompt="prompt"/>
+    <div v-if="message" class="mt-5 p-2.5 border border-gray-300 rounded-md">
+      <h3 class="text-white font-bold">Answer:</h3>
+      <p class="text-white font-semibold">{{ htmlResposta }}</p>
+  </div>
+</div>
+
+<Index :main="main" :loading="loading" :prompt="prompt"/>
 </template>
 
 <style scoped>
-.read-the-docs {
-  color: #888;
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #ffffff;
+}
+button:hover {
+  background-color: #343434;
+}
+div {
+  color: #ffffff;
 }
 </style>
