@@ -10,6 +10,7 @@ export class AgentService {
     htmlAnswer: any;
     groq: any;
     markdown2HtmlService: any;
+    Model: any;
 
     constructor(APIkey: string) {
         this.APIkey = APIkey;
@@ -42,7 +43,7 @@ export class AgentService {
                     content: prompt,
                 },
             ],
-            model: "openai/gpt-oss-120b",
+            model: this.Model,
         });
     }
 }

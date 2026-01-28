@@ -19,7 +19,7 @@
   </div>
 </div>
 
-<Index v-model:model="model" :main="agentService.main" :loading="agentService.loading" :prompt="agentService.prompt" />
+<Index v-model:model="agentService.Model" :main="agentService.main" :loading="agentService.loading" :prompt="agentService.prompt" />
 
 </template>
 
