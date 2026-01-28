@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ArrowUpIcon } from 'lucide-vue-next'
-//import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupTextarea } from '@/components/ui/input-group'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { reactive, watch, ref } from 'vue'
 
 const props = defineProps<{
@@ -69,7 +68,7 @@ function enableButton() {
       <InputGroupAddon align="block-end">
         <Select v-model="model" align="start" side="top">
           <SelectTrigger class="w-[100px] rounded-full">
-            <SelectValue :placeholder="`${model === 'smart' ? 'Smart' : 'Fast'}`" />
+            <SelectValue :placeholder="`${model === 'smart' ? 'Smart' : 'Fast'}`" class="text-white"/>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -85,8 +84,7 @@ function enableButton() {
           class="rounded-full"
           size="icon-xs"
           @click="data.main(data.prompt); data.prompt=''"
-          :disabled="isDisabled"
-        >
+          :disabled="isDisabled" >
           <ArrowUpIcon class="size-4" />
           <span class="sr-only">Send</span>
         </InputGroupButton>

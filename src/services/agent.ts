@@ -27,8 +27,8 @@ export class AgentService {
             console.log(this.message.value);
               console.log(this);
         } catch (error) {
-            console.error('Erro:', error);
-            this.message.value = 'Erro ao obter resposta do Groq';
+            console.error('Error:', error);
+            this.message.value = 'Error obtaining Groq\'s Answer';
         } finally {
             this.loading.value = false;
         }
