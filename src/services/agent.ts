@@ -31,7 +31,7 @@ export class AgentService {
               console.log(chatCompletion.choices);
         } catch (error) {
             console.error('Error:', error);
-            this.message.value = 'Error obtaining response from Groq';
+            this.message.value = 'Error obtaining Groq\'s Answer';
         } finally {
             this.loading.value = false;
         }
