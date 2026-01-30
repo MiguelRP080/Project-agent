@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
-import Index from './components/Index.vue'
+import { SidebarProvider } from '@/components/ui/sidebar'
 </script>
 
 <template>
-  <HelloWorld />
+  <SidebarProvider>
+    <HelloWorld />
+  </SidebarProvider>
 </template>
