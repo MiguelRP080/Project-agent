@@ -6,14 +6,32 @@ import { Markdown2HtmlService } from '@/services/markdown2html';
 import KeyTemplate from './KeyTemplate.vue';
 import ChatsHistory from './ChatsHistory.vue';
 import ToDoApp from './ToDoApp.vue';
+import { ChatService } from '@/services/chats';
 
-let apiKey = ref('')
-apiKey.value = localStorage.getItem('API Key') ?? ''
-const agentService = new AgentService(apiKey.value);
+  const ApiKey = localStorage.getItem('API Key') || '';
+  
+  const agentService = new AgentService(ApiKey);
 
-const markdown2HtmlService = new Markdown2HtmlService();
+  const markdown2HtmlService = new Markdown2HtmlService();
+  const chatService = new ChatService('','');
+  const prompt = '';
+  
+  // Create a chat if it doesn't exist
+  let currentChatId = localStorage.getItem('currentChatId');
+  if (!currentChatId) {
+    currentChatId = chatService.createChat('Chat Novo');
+    localStorage.setItem('currentChatId', currentChatId);
+  }
 
-const model = ref('smart')
+  async function Chat(message: string){
+    if (!message.trim()) return;
+    chatService.saveMessage(currentChatId!, 'user', message);
+    const messages = chatService.buildPrompt(currentChatId!, message);
+    agentService.prompt.value = messages;
+    await agentService.main(message);
+    chatService.saveMessage(currentChatId!, 'assistant', agentService.message.value);
+  }
+
 </script>
 
 <template>
@@ -28,8 +46,8 @@ const model = ref('smart')
 </div>
 
   <ToDoApp>
-    <Index v-model:model="model" :main="agentService.main" :loading="agentService.loading" :prompt="agentService.prompt" />
-    <KeyTemplate :apiKey="apiKey"/>
+    <Index v-model:model="agentService.Model" :main="Chat" :loading="agentService.loading" :prompt="prompt" />
+    <KeyTemplate :apiKey="agentService.APIkey"/>
     <ChatsHistory />
   </ToDoApp>
 
