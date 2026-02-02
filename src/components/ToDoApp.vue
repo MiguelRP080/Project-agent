@@ -39,7 +39,7 @@ const sortedTasks = computed(() =>
 
 
 <template>
-  <div class="w-[900px] h-[70%] ml-auto mr-auto mt-[10px] relative right-[30px]">
+  <div class="w-[900px] h-[calc(100vh-220px)] ml-auto mr-auto mt-[10px] relative right-[30px]">
 
     <button
       aria-label="All"
