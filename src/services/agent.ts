@@ -111,9 +111,9 @@ export class AgentService {
             },
           },
           required: ["id"],
-        },
-      },
-    }
+        }
+      }
+      }
     ];
 
     getSystemPrompt() { 
@@ -147,6 +147,14 @@ export class AgentService {
             - Removes a to-do list item
             - Arguments:
                 - id: number (ID of the to-do item to be removed)
+        4. UpdateTodo:
+            - Updates the information about a to-do list item
+            - Arguments:
+                - id: number (ID of the to-do item to be updated)
+                - title: string (title of the to-do item)
+                - description: string (description of the to-do item)
+                - priorityLvl: number (priority level of the to-do item)
+                - isDone: boolean (the property that indicates whether the task has been completed or not)
         Current to-do list (source of truth):
         ${JSON.stringify(Array.from(todoList.tasks.values()))}
 
